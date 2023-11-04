@@ -1,0 +1,36 @@
+#include <SoftwareSerial.h>
+// #include <Servo.h>
+// #include <NewPing.h>
+
+SoftwareSerial espSerial(2, 3);//Rx, Tx pin
+
+int angle;
+int distance;
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+  espSerial.begin(115200);
+  
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (espSerial.available()) {
+    String data = espSerial.readStringUntil('\n');
+    data.trim();
+    Serial.println("Hmm, data asse");
+    // Extract individual values from the received string
+    int commaIndex = data.indexOf(",");
+    if (commaIndex != -1) {
+      String value1String = data.substring(0, commaIndex);
+      String value2String = data.substring(commaIndex + 1);
+
+      //Convert the extracted strings to integers
+      angle = value1String.toInt();//Angle value
+      distance = value2String.toInt();//Distance
+      Serial.println("Successfully printed the data");
+      //process your code form here 
+      
+    }
+  }
+}
